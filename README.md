@@ -7,8 +7,9 @@ The prop is a hollowed-out plastic watering can worn over a suit, with a thick w
 ## Hardware
 
 - Raspberry Pi Zero 2 W (headless, Raspberry Pi OS Lite 64-bit)
-- 1x 5mm white LED
-- 1x 220 ohm resistor
+- 1x 5mm yellow LED (the lure)
+- 1x 5mm red LED (the stomach)
+- 2x 220 ohm resistor
 - USB power bank
 - Wire for the lure stalk
 
@@ -17,8 +18,11 @@ The prop is a hollowed-out plastic watering can worn over a suit, with a thick w
 ```
 Pi Zero 2 W
 ┌──────────┐
-│      Pin 12 (GPIO 18) ──[ 220Ω ]──── LED+ (long leg)
-│      Pin  6 (GND)     ─────────────── LED- (short leg)
+│  Lure:    Pin 12 (GPIO 18) ──[ 220Ω ]──── Yellow LED+
+│           Pin  6 (GND)     ─────────────── Yellow LED-
+│
+│  Stomach: Pin 33 (GPIO 13) ──[ 220Ω ]──── Red LED+
+│           Pin 34 (GND)     ─────────────── Red LED-
 └──────────┘
 ```
 
@@ -53,4 +57,9 @@ sudo systemctl disable lure    # disable auto-start
 
 ## How it works
 
-`lure.py` uses `gpiozero.PWMLED.pulse()` to smoothly fade the LED in and out (2 seconds each way) in a continuous loop. `setup.sh` installs a systemd service that starts the script on boot and restarts it automatically if anything goes wrong.
+`lure.py` runs two LEDs concurrently using `gpiozero.PWMLED.pulse()`:
+
+- **Lure** (yellow, GPIO 18): 2s fade in, 2s fade out — a hypnotic bioluminescent glow
+- **Stomach** (red, GPIO 13): 4s fade in, 4s fade out — a slower deep breathing effect
+
+The different cycle lengths keep them out of sync for an organic feel. `setup.sh` installs a systemd service that starts on boot and auto-restarts on failure.

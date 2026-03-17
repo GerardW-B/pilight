@@ -9,7 +9,7 @@ SERVICE_FILE="/etc/systemd/system/lure.service"
 
 cat > "$SERVICE_FILE" <<EOF
 [Unit]
-Description=Anglerfish Lure LED
+Description=Anglerfish LEDs (lure + stomach)
 After=multi-user.target
 
 [Service]
@@ -27,7 +27,7 @@ systemctl daemon-reload
 systemctl enable lure.service
 systemctl start lure.service
 
-echo "Done. The LED should be pulsing now."
+echo "Done. Both LEDs should be pulsing now."
 echo "It will start automatically on every boot."
 echo ""
 echo "Useful commands:"

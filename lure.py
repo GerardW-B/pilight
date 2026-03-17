@@ -1,29 +1,33 @@
 #!/usr/bin/env python3
 """
-Anglerfish Lure - A single pulsing LED for a wearable prop.
+Anglerfish - Two LEDs for a wearable deep-sea prop.
 
 Hardware:
-    LED+ -> 220ohm resistor -> GPIO 18 (Pin 12)
-    LED- -> GND (Pin 6)
+    Lure (yellow):   220ohm resistor -> GPIO 18 (Pin 12), GND (Pin 6)
+    Stomach (red):   220ohm resistor -> GPIO 13 (Pin 33), GND (Pin 34)
 """
 
 from gpiozero import PWMLED
 from signal import pause
-import sys
 
 
 def main():
-    led = PWMLED(18)
+    lure = PWMLED(18)     # Yellow LED - the glowing lure
+    stomach = PWMLED(13)  # Red LED - the stomach glow
 
-    # Slow bioluminescent pulse: 2s fade in, 2s fade out
-    led.pulse(fade_in_time=2, fade_out_time=2)
+    # Lure: slow hypnotic pulse (2s in, 2s out)
+    lure.pulse(fade_in_time=2, fade_out_time=2)
+
+    # Stomach: slower deep breathing (4s in, 4s out) - out of sync with lure
+    stomach.pulse(fade_in_time=4, fade_out_time=4)
 
     try:
         pause()
     except KeyboardInterrupt:
         pass
     finally:
-        led.close()
+        lure.close()
+        stomach.close()
 
 
 if __name__ == "__main__":
