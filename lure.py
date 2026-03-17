@@ -15,11 +15,12 @@ def main():
     lure = PWMLED(18)     # Yellow LED - the glowing lure
     stomach = PWMLED(13)  # Red LED - the stomach glow
 
-    # Lure: slow hypnotic pulse (2s in, 2s out)
-    lure.pulse(fade_in_time=2, fade_out_time=2)
+    # Lure: slow hypnotic pulse (2.5s in, 2.5s out = 5s cycle)
+    lure.pulse(fade_in_time=2.5, fade_out_time=2.5)
 
-    # Stomach: slower deep breathing (4s in, 4s out) - out of sync with lure
-    stomach.pulse(fade_in_time=4, fade_out_time=4)
+    # Stomach: slower breathing (3.7s in, 3.7s out = 7.4s cycle)
+    # Non-divisible cycle lengths so they constantly drift out of sync
+    stomach.pulse(fade_in_time=3.7, fade_out_time=3.7)
 
     try:
         pause()
